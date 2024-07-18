@@ -1,7 +1,22 @@
-const mysql2 = require("mysql2")
+var mysql = require('mysql');
 
-
-mysql2 = mysql2.createConnection({
+var con = mysql.createConnection({
     host: "localhost",
-    user: "root"
-})
+    user: "root",
+    password: "",
+    database: "mydatabase"
+});
+
+const main = () => {
+    con.connect(function (err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var sql = "SELECT * FROM student";
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log(result);
+        });
+    });
+}
+
+module.exports = main;
