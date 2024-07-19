@@ -8,18 +8,43 @@
 </head>
 
 <body>
-    <h1 id="title"></h1>
-    <p id="content"></p>
+
+    <div id="div1">
+
+    </div>
+
+    <div id="div" style="border: solid red; height: 700px; width: 800px;"></div>
+
 
     <script>
-        fetch('http://localhost:6969/api/data')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('title').innerText = data.title;
-                document.getElementById('content').innerText = data.content;
-            })
-            .catch(error => console.error('Error fetching data:', error));
+
+
+        const main = async () => {
+            let data = await fetch('http://localhost:6969/api/data').then(response => response.json()).then((data) => { return data })
+            let names = data.map((e) => { return e.name })
+            let ages = data.map((e) => { return e.age })
+            let address = data.map((e) => { return e.address })
+            let ids = data.map((e) => { return e.id })
+            const element = document.getElementById("div")
+            for (let i = 0; i < names.length; i++) {
+                let para = document.createElement("p")
+                let node = document.createTextNode(`id : ${ids[i]} ---- name : ${names[i]} ----  age : ${ages[i]}  ---- adress : ${address[i]}`)
+                para.appendChild(node)
+                element.appendChild(para)
+
+            }
+
+
+        }
+        main()
+
+
+
     </script>
+
+
+
+
 </body>
 
 </html>
