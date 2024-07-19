@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -7,16 +7,39 @@ var con = mysql.createConnection({
     database: "mydatabase"
 });
 
-const main = () => {
+
+const connect = () => {
     con.connect(function (err) {
         if (err) throw err;
-        console.log("Connected!");
-        var sql = "SELECT * FROM student";
-        con.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log(result);
-        });
+        console.log("Connected! threadId : ", con.threadId);
+
     });
+
 }
 
-module.exports = main;
+const endConnect = () => {
+    con.end((err) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log("connection ended , threadId :", con.threadId);
+    })
+}
+
+
+const execute = async (sql_statement) => {
+    return new Promise((resolve, reject) => {
+        con.query(sql_statement, (err, res) => {
+            if (err) {
+                reject(err)
+            }
+            resolve(res)
+        })
+    })
+}
+
+module.exports = {
+    connect: connect,
+    execute: execute,
+    endConnect: endConnect,
+}
