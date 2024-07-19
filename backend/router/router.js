@@ -11,5 +11,10 @@ route.get('/', (req, res) => { controller.getHomePage(req, res) })
 route.get("/api/data", async (req, res) => { fun.getInfoStudent(req, res) })
 
 
+route.get("/api", (req, res) => {
+    res.sendFile(path.resolve("../fontend/page2.html"));
+})
+
+
 
 module.exports = route
