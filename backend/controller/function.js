@@ -5,7 +5,7 @@ const connection = require("../model/connection.js")
 const getDataByTableName = async (req, res, table_name) => {
     let data0
     let result = await connection.execute(`SELECT * FROM ${table_name}`)
-        .then((data) => { data0 = data; return "get dữ liệu thành công: " + data.join(" ").toString() })
+        .then((data) => { data0 = data; return "get dữ liệu thành công " })
         .catch((e) => { return e + "\nlỗi khi lấy dữ liệu tại bảng : " + table_name })
     res.send(data0)
     console.log(result);

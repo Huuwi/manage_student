@@ -12,6 +12,6 @@ app.use(routes)
 app.use(api)
 
 
-app.listen(6969, () => {
+app.listen(6969, '0.0.0.0', () => {
     console.log("server is running on the port 3000");
 })
