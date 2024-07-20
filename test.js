@@ -1,7 +1,10 @@
 const connection = require('./backend/model/connection.js')
-
+const fun = require('./backend/controller/function.js')
 const main = async () => {
-    let data0 = await connection.execute("select * from student").then((data) => { return data[0]; })
-    console.log(data0);
+
+    let a = ['001', '002', '003']
+    // console.log(` values (${a.map((e) => { return `'${e}'` }).join(",")})`);
+    await fun.insertTable("student", ["id", "name", "address", "YOB"], ["006", "bui xuan an", "ha giang", "2004"]);
+
 }
 main()
