@@ -1,33 +1,41 @@
-const connection = require("../model/connection.js")
+const connection = require("../model/connection.js");
 
-
-
-const getDataByTableName = async (req, res, table_name) => {
-    let data0
-    let result = await connection.execute(`SELECT * FROM ${table_name}`)
-        .then((data) => { data0 = data; return "get dữ liệu thành công " })
-        .catch((e) => { return e + "\nlỗi khi lấy dữ liệu tại bảng : " + table_name })
-    res.send(data0)
-    console.log(result);
-    return result
+//Lay toan bo thong tin sinh vien
+const getStudentTable = async (req, res) => {
+    let data = await connection.execute("select * from student").then((data) => { return data });
+    res.send(data);
+    return data
 }
 
-
-const insertTable = async (table_name, properties, values) => {
-    let result = await connection.execute(`INSERT INTO ${table_name} (${properties.join(",")}) values (${values.map((e) => { return `'${e}'` }).join(",")})`)
-        .then(() => { return "insert thành công : " + values.join(',') })
-        .catch((e) => { return e + "\nlỗi khi insert : " + values.join(",") })
-
-    console.log(result);
-    return result
+//Lay ten sinh vien
+const getStudentName = async (req, res) => {
+    let data = await connection.execute("select name from student").then((data) => { return data });
+    res.send(data);
 }
 
+//Lay toan bo thong tin ve diem
+const getMarkTable = async (req, res) => {
+    let data = await connection.execute("select * from mark").then((data) => { return data });
+    res.send(data);
+}
 
+//Lay toan bo thong tin ve mon hoc
+const getSubjectTable = async (req, res) => {
+    res.send(await connection.execute("select * from subject").then((data) => { return data }));
+}
+
+//Lay du lieu cho bang
+const getTableData = async (req, res) => {
+    let data = await connection.execute("SELECT student.student_id, student.name, student.address, student.YOB, subject.subject_name, subject.subject_id, mark.tx1, mark.tx2, mark.ck FROM student LEFT JOIN mark ON student.student_id = mark.student_id LEFT JOIN subject ON mark.subject_id = subject.subject_id UNION SELECT student.student_id, student.name, student.address, student.YOB, subject.subject_name, subject.subject_id, mark.tx1, mark.tx2, mark.ck FROM subject LEFT JOIN mark ON subject.subject_id = mark.subject_id LEFT JOIN student ON mark.student_id = student.student_id; ").then((data) => { return data });
+    res.send(data);
+}
 
 const fun = {
-    getDataByTableName: getDataByTableName,
-    insertTable: insertTable,
+    getStudentTable: getStudentTable,
+    getMarkTable: getMarkTable,
+    getSubjectTable: getSubjectTable,
+    getStudentName: getStudentName,
+    getTableData: getTableData
 }
 
-
-module.exports = fun
+module.exports = fun;

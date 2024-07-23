@@ -12,8 +12,10 @@ const getInfoStudent = async (req, res) => {
 
 }
 
+const disPlayData = (req, res) => {
+    res.sendFile(path.resolve("../fontend/page2.html"));
 
-
+}
 
 const displayTable = (req, res) => {
     res.sendFile(path.resolve("../fontend/table.html"));
@@ -22,6 +24,7 @@ const displayTable = (req, res) => {
 const controller = {
     getInfoStudent: getInfoStudent,
     getHomePage: getHomePage,
+    disPlayData: disPlayData,
     displayTable: displayTable
 }
 

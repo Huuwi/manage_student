@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>list student</title>
+    <title>✨ Student List ✨</title>
     <link rel="stylesheet" href="./style/table.css">
 </head>
 
@@ -13,11 +13,16 @@
         <div class="table-container">
             <table>
                 <thead>
-                    <tr>
-                        <th>Full Name</th>
+                    <tr id="myTr">
                         <th>ID</th>
-                        <th>YOB</th>
+                        <th>Full Name</th>
                         <th>Address</th>
+                        <th>YOB</th>
+                        <th>Subject Name</th>
+                        <th>Subject ID</th>
+                        <th>Tx1</th>
+                        <th>Tx2</th>
+                        <th>Final Grade</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
@@ -26,47 +31,42 @@
             </table>
         </div>
 
-        <script>
-            const main = async () => {
-                let students = await fetch("http://localhost:6969/api/get_student_data").then(response => response.json()).then((data) => { return data })
-
-                let studentData = [];
-
-                for (let i = 0; i < students.length; i++) {
-                    studentData.push(students[i]);
-                }
-
-                var tBody = document.getElementById("table-body");
-
-                for (let i = 0; i < studentData.length; i++) {
-                    var newRow = document.createElement("tr");
-                    var cellNameText = document.createElement("td");
-                    var cellIdText = document.createElement("td");
-                    var cellYOBText = document.createElement("td");
-                    var cellAddressText = document.createElement("td");
-
-                    cellNameText.appendChild(document.createTextNode(studentData[i].name));
-                    cellIdText.appendChild(document.createTextNode(studentData[i].Id));
-                    cellYOBText.appendChild(document.createTextNode(studentData[i].YOB));
-                    cellAddressText.appendChild(document.createTextNode(studentData[i].address));
-
-                    newRow.appendChild(cellNameText);
-                    newRow.appendChild(cellIdText);
-                    newRow.appendChild(cellYOBText);
-                    newRow.appendChild(cellAddressText);
-
-                    tBody.appendChild(newRow);
-                }
-            }
-
-            main()
-        </script>
-
         <br></br>
 
+        <script>
+            async function sendData() {
+                // console.log(await fetch('http://localhost:3000/table/get_table_data').then(response => response.json()));
+                let exe = await fetch('http://localhost:3000/table/get_table_data').then(response => response.json()).then(data => {
+                    const tBody = document.getElementById("table-body");
+
+                    data.forEach(row => {
+                        const newTr = document.createElement("tr");
+                        for (const key in row) {
+                            if (row.hasOwnProperty(key)) {
+                                const newTd = document.createElement("td");
+                                if (row[key] == null) {
+                                    newTd.textContent = "--";
+                                }
+                                else {
+                                    newTd.textContent = row[key];
+                                }
+                                newTr.appendChild(newTd);
+                            }
+                        }
+                        tBody.appendChild(newTr);
+                    })
+                }).catch(error => console.error('Lỗi:', error));
+            }
+
+            sendData();
+        </script>
+
         <form action="/" method="get" class="myForm">
-            <button type="submit">BACK TO HOMEPAGE</button>
+            <!-- <button type="submit">BACK TO HOMEPAGE</button> -->
+            <button class="button-89" role="button">BACK TO HOMEPAGE</button>
         </form>
+
+
     </div>
 </body>
 
